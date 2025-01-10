@@ -1,10 +1,35 @@
-const http = require("http");
+const { readFile, writeFile } = require("fs").promises;
+// const util = require("util");
+// const readFilePromise = util.promisify(readFile);
+// const writeFilePromise = util.promisify(writeFile);
 
-const server = http.createServer((req, res) => {
-  console.log("request event");
-  res.end("hello world");
-});
+const start = async () => {
+  try {
+    const first = await readFile("./content/first.txt", "utf8");
+    const second = await readFile("./content/second.txt", "utf8");
+    await writeFile(
+      "./content/result-mind-grenade.txt",
+      `I really really miss yara :${first},${second}`,
+      { flag: "a" }
+    );
+    console.log(first, ",", second);
+  } catch (error) {
+    console.log(error);
+  }
+};
+start();
 
-server.listen(3001, () => {
-  console.log("server listening on port 3001...");
-});
+// const getText = (path) => {
+//   return new Promise((resolve, reject) => {
+//     readFile(path, "utf8", (err, data) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         resolve(data);
+//       }
+//     });
+//   });
+// };
+// getText("./content/first.txt")
+//   .then((result) => console.log(result))
+//   .catch((err) => console.log(err));
